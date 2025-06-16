@@ -26,26 +26,17 @@ const Dashboard = () => {
   }, []);
 
   const generateNewIdea = async () => {
-    setGenerating(true);
-    try {
-      const res = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer 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 `, // 👈 Replace this
-        },
-        body: JSON.stringify({
-          model: "gpt-3.5-turbo",
-          messages: [
-            {
-              role: "user",
-              content:
-                "Give me a trending Instagram Reel idea with: a trend, format, hook, title, and caption. Respond in JSON format with keys: trend, format, hook, title, caption.",
-            },
-          ],
-        }),
-      });
-
+  setGenerating(true);
+  try {
+    const response = await fetch("/api/generateIdea");
+    const data = await response.json();
+    setIdea(data);
+  } catch (error) {
+    alert("Error generating idea.");
+  } finally {
+    setGenerating(false);
+  }
+};
       const data = await res.json();
       const text = data.choices[0].message.content;
       const parsed = JSON.parse(text);
