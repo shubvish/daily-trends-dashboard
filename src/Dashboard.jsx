@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+
 const Dashboard = () => {
   const [news, setNews] = useState([]);
   const [trends, setTrends] = useState([]);
   const [quote, setQuote] = useState("");
+  const [idea, setIdea] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,6 +16,13 @@ const Dashboard = () => {
       ]);
       setTrends(["#AIRevolution", "#LokSabha2025", "#ViralReels"]);
       setQuote("Great things never come from comfort zones. — Anonymous");
+      setIdea({
+        trend: "#AIRevolution",
+        format: "Instagram Reel",
+        hook: "What if AI could do your job 10x faster than you?",
+        title: "5 AI Tools That Will Replace Your 9-5 in 2025",
+        caption: "Tag a friend who needs to see this 😳 #AIRevolution"
+      });
       setLoading(false);
     }
     fetchData();
@@ -27,7 +36,18 @@ const Dashboard = () => {
       {loading ? <p>Loading...</p> : trends.map((t, i) => <p key={i}>🔹 {t}</p>)}
       <h2>📅 Quote of the Day</h2>
       <p>{quote}</p>
+      <h2>🤖 AI Content Idea</h2>
+      {idea ? (
+        <div style={{ background: "#f0f0f0", padding: 10, borderRadius: 8 }}>
+          <p><strong>📢 Trend:</strong> {idea.trend}</p>
+          <p><strong>🎬 Format:</strong> {idea.format}</p>
+          <p><strong>🧲 Hook:</strong> {idea.hook}</p>
+          <p><strong>✍️ Title:</strong> {idea.title}</p>
+          <p><strong>📝 Caption Idea:</strong> {idea.caption}</p>
+        </div>
+      ) : <p>Generating idea...</p>}
     </div>
   );
 };
+
 export default Dashboard;
